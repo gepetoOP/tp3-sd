@@ -1,6 +1,6 @@
 package observer_subject;
 
-import java.awt.BorderLayout;
+import java.awt.*;
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.io.ObjectInputStream;
@@ -11,19 +11,21 @@ import java.net.InetAddress;
 import java.net.ServerSocket;
 import java.net.Socket;
 
-import javax.swing.JFrame;
-
 import gui.Dot;
+import gui.Frame;
 import gui.Panel;
 
 import it.unimi.dsi.fastutil.ints.Int2ObjectMap;
 import it.unimi.dsi.fastutil.ints.Int2ObjectOpenHashMap;
 
+import javax.swing.*;
+
+
 public class Observer {
     private Int2ObjectMap<Dot> dots = new Int2ObjectOpenHashMap<Dot>();
     private Panel panel;
-    private ServerSocket servidor;
-    private Integer VERSAO=0;
+    private ServerSocket server;
+    private Integer version = 0;
 
     private Long t1;
     private Long t2=(long) 0;
@@ -31,12 +33,9 @@ public class Observer {
     private int port;
 
     public Observer(int port){
-        JFrame frame = new JFrame();
         panel = new Panel();
-        frame.setLayout(new BorderLayout());
-        frame.add(panel, BorderLayout.CENTER);
-        frame.setSize(500, 500);
-        frame.setVisible(true);
+        Frame frame = new Frame(panel);
+
 
         this.port = port;
 
@@ -60,7 +59,7 @@ public class Observer {
             socket.receive(packet);
 
             t2 = System.currentTimeMillis();
-            System.out.println((((double) t2.longValue()) - t1.longValue())/1000 + "s");
+            print("(Observer.serverUDP) time: " + (((double) t2.longValue()) - t1.longValue())/1000 + "s");
 
             ObjectInputStream iStream;
             iStream = new ObjectInputStream(new ByteArrayInputStream(packet.getData()));
@@ -80,32 +79,31 @@ public class Observer {
     @SuppressWarnings("unchecked")
     private void msgHandlerUDP(Object[] msg) {
         int msg_type = (int) msg[0];
+        print("(Observer.msgHandlerUDP) MESSAGE TYPE: " + msg_type);
         try {
             switch (msg_type) {
-                case 1:
-                    // print a nuvem inteira
+                case 1:	// print a nuvem inteira
                     Int2ObjectMap<Dot> nuvem = (Int2ObjectMap<Dot>) msg[1];
                     dots.putAll(nuvem);
-                    synchronized(VERSAO){
-                        VERSAO = 1;
+                    synchronized(version){
+                        version = 1;
                     }
                     printDots(nuvem);
-                    //System.out.println("VERSÃO RECEBIDA: " + VERSAO);
+                    print("(Observer.msgHandlerUDP) RECEIVED VERSION: " + version);
                     break;
-                case 2:
-                    // print nos pontos atualizados
+                case 2:	// print nos pontos atualizados
                     Int2ObjectMap<Dot> nuvemUpdate = (Int2ObjectMap<Dot>) msg[1];
-                    System.out.println(nuvemUpdate.size());
+                    print("(Observer.msgHandlerUDP) size: " + nuvemUpdate.size());
                     dots.putAll(nuvemUpdate);
-                    synchronized (VERSAO) {
-                        VERSAO++;
+                    synchronized (version) {
+                        version++;
                     }
 
                     printDots(nuvemUpdate);
-                    //System.out.println("VERSÃO RECEBIDA: " + VERSAO);
+                    print("(Observer.msgHandlerUDP) RECEIVED VERSION: " + version);
                     break;
                 default:
-                    System.err.println("OBSERVER: Bad Request ERROR 500");
+                    System.err.println("(Observer.msgHandlerUDP) Bad Request ERROR 500");
                     break;
             }
         } catch (Exception e) {
@@ -113,88 +111,23 @@ public class Observer {
         }
     }
 
-    public void server() throws IOException{
-        servidor = new ServerSocket(1234);
-        System.out.println(ConsoleColors.GREEN + "SERVIDOR (Observer): Servidor criado");
-        new Thread(() ->{
-            try {
-                while(true){
-                    t1 = System.currentTimeMillis();
-                    Socket client = servidor.accept();
 
-                    new Thread(() ->{
-                        try {
-                            System.out.println(ConsoleColors.GREEN + "SERVIDOR (Observer): Conexao aberta com " + client.getRemoteSocketAddress());
 
-                            ObjectOutputStream outStream = new ObjectOutputStream(client.getOutputStream());
-                            ObjectInputStream inStream = new ObjectInputStream(client.getInputStream());
-
-                            Object [] msg = (Object []) inStream.readObject();
-                            System.out.println(ConsoleColors.GREEN + "SERVIDOR (Observer): Mensagem Recebida de " + client.getRemoteSocketAddress());
-                            synchronized(t2){
-                                t2 = System.currentTimeMillis();
-                                System.out.println((((double) t2.longValue()) - t1.longValue())/1000 + "s");
-                            }
-
-                            msgHandler(msg, inStream, outStream, client);
-
-                            inStream.close();
-                            outStream.close();
-                            client.close();
-                        } catch (IOException | ClassNotFoundException e) {
-                            e.printStackTrace();
-                        }
-                    }).start();
-                }
-            } catch (IOException e1) {
-                e1.printStackTrace();
-            }
-        }).start();
-    }
-
-    @SuppressWarnings("unchecked")
-    private synchronized void msgHandler(Object[] msg, ObjectInputStream inStream, ObjectOutputStream outStream, Socket client) {
-        String host = client.getRemoteSocketAddress().toString();
-        System.out.println(ConsoleColors.GREEN_BRIGHT + "OBSERVER (Observer): Mensagem recebida de " + host);
-        int msg_type = (int) msg[0];
-        try {
-            switch (msg_type) {
-                case 1:
-                    // print a nuvem inteira
-                    Int2ObjectMap<Dot> nuvem = (Int2ObjectMap<Dot>) msg[1];
-                    dots.putAll(nuvem);
-                    synchronized(VERSAO){
-                        VERSAO = 1;
-                    }
-                    outStream.writeObject(1);
-                    printDots(nuvem);
-                    //System.out.println("VERSÃO RECEBIDA: " + VERSAO);
-                    break;
-                case 2:
-                    // print nos pontos atualizados
-                    Int2ObjectMap<Dot> nuvemUpdate = (Int2ObjectMap<Dot>) msg[1];
-                    dots.putAll(nuvemUpdate);
-                    synchronized (VERSAO) {
-                        VERSAO++;
-                    }
-
-                    printDots(nuvemUpdate);
-                    //System.out.println("VERSÃO RECEBIDA: " + VERSAO);
-                    break;
-                default:
-                    System.err.println("OBSERVER: Bad Request ERROR 500");
-                    break;
-            }
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-
-    }
 
     private void printDots(Int2ObjectMap<Dot> dotBatch){
+
         for(Dot d : dotBatch.values()){
+            d.printDot();
             panel.addDot(d);
         }
         panel.repaint();
     }
+
+
+    // FORMATA A SAIDA (ESTETICA)
+    private void print(String s) {
+        System.out.println(ConsoleColors.GREEN + s + ConsoleColors.RESET);
+    }
+
+
 }
