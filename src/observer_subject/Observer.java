@@ -117,7 +117,7 @@ public class Observer {
     private void printDots(Int2ObjectMap<Dot> dotBatch){
 
         for(Dot d : dotBatch.values()){
-            d.printDot();
+//            d.printDot();
             panel.addDot(d);
         }
         panel.repaint();

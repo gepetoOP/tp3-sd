@@ -63,10 +63,8 @@ public class Subject {
 		boolean send_nuvem = false;
 
 		try {
-			print("------------------------------------------------------------- NUVEM INICIAL -------");
 			nuvemInicial(Configs.TAMANHO_NUVEM_INICIAL);
 		} catch (IOException e1) {
-			print("------------------------ AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA -------");
 			e1.printStackTrace();
 		}
 
@@ -315,8 +313,6 @@ public class Subject {
 	public void nuvemInicial(int size) throws IOException {
 		for(int i=0;i<size;i++){
 			Dot d = new Dot();
-			print("------------------------ NUVEM INICIAL -------");
-			d.printDot();
 			dotBatch.put(d.getId(), d);
 		}
 		dots.putAll(dotBatch);
