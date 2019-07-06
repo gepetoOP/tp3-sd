@@ -20,7 +20,7 @@ public class Panel extends JPanel {
 	@Override
 	protected void paintComponent(Graphics g) {
 		super.paintComponent(g);
-		g.drawImage(image, 10, 10, this);
+		g.drawImage(image, 5, 5, this);
 	}
 
 	public void addDot(Dot dot){

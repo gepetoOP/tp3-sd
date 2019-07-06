@@ -88,7 +88,7 @@ public class Observer {
                     synchronized(version){
                         version = 1;
                     }
-                    printDots(nuvem);
+//                    printDots(nuvem);
                     print("(Observer.msgHandlerUDP) RECEIVED VERSION: " + version);
                     break;
                 case 2:	// print nos pontos atualizados
@@ -99,7 +99,7 @@ public class Observer {
                         version++;
                     }
 
-                    printDots(nuvemUpdate);
+//                    printDots(nuvemUpdate);
                     print("(Observer.msgHandlerUDP) RECEIVED VERSION: " + version);
                     break;
                 default:
