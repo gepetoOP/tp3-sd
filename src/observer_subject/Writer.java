@@ -122,7 +122,7 @@ public class Writer{
 
 			s = subjects.get(pos);
 			sub = new Socket();
-			sub.connect(new InetSocketAddress(s[0], Integer.parseInt("4321")), 1500);
+			sub.connect(new InetSocketAddress(s, Integer.parseInt("4321")), 1500);
 			sub.setSoTimeout(1500);
 			inSub = new ObjectInputStream(sub.getInputStream());
 			outSub = new ObjectOutputStream(sub.getOutputStream());
@@ -132,7 +132,8 @@ public class Writer{
 			WRT_SUB++;
 			System.out.println(ConsoleColors.YELLOW + "(Writer) Conexoes WRT_SUB: " + WRT_SUB);
 		}catch(Exception e){
-			System.err.println("(Writer) falha no subject " + s);
+			System.err.println("(Writer) falha no subject " + s
+			);
 
 			String str = subjects.remove(0);
 			subjects.add(str);
