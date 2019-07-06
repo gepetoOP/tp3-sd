@@ -83,17 +83,18 @@ public class Writer{
 //	}
 
 	public void generateDot() throws IOException{
-//		int [] rgb = new int[3];
-//		rgb[0] = (int) (Math.random()*256);
-//		rgb[1] = (int) (Math.random()*256);
-//		rgb[2] = (int) (Math.random()*256);
-//
-//		int x = (int) (Math.random()*1250);
-//		int y = (int) (Math.random()*700);
-//
-//		Dot d = new Dot(x,y,rgb, 10);
+		int [] color = new int[3];
 
-		Dot d = new Dot();
+		color[0] = new Random().nextInt(256);
+		color[1] = new Random().nextInt(256);
+		color[2] = new Random().nextInt(256);
+
+		int x = new Random().nextInt(Configs.TAMANHO_FRAME);
+		int y = new Random().nextInt(Configs.TAMANHO_FRAME);
+
+		int size = new Random().nextInt(10) + 1;
+
+		Dot d = new Dot(x,y,color, size);
 
 		write(d);
 	}
@@ -131,7 +132,7 @@ public class Writer{
 			outSub.writeObject(msg);
 
 			WRT_SUB++;
-//			System.out.println(ConsoleColors.YELLOW + "(Writer) Conexoes WRT_SUB: " + WRT_SUB);
+
 			print("(Writer.write) CONECTIONS WRT_SUB: " + WRT_SUB);
 		}catch(Exception e){
 			System.err.println("(Writer.write) SUBJECT FAIL: " + subjIp);

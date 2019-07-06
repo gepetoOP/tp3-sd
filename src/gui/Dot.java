@@ -27,8 +27,8 @@ public class Dot implements Serializable{
 		this.setG(new Random().nextInt(256));
 		this.setB(new Random().nextInt(256));
 
-		x = new Random().nextInt(Configs.TAMANHO_FRAME);
-		y = new Random().nextInt(Configs.TAMANHO_FRAME);
+		this.setX(new Random().nextInt(Configs.TAMANHO_FRAME));
+		this.setY(new Random().nextInt(Configs.TAMANHO_FRAME));
 
 		size = new Random().nextInt(10) + 1;
 	}
