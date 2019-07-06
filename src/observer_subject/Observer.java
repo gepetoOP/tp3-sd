@@ -38,14 +38,9 @@ public class Observer {
 	private int port;
 
 	public Observer(int port){
-//		panel = new Panel();
-//		Frame frame = new Frame(panel);
-		JFrame frame = new JFrame();
 		panel = new Panel();
-		frame.setLayout(new BorderLayout());
-		frame.add(panel, BorderLayout.CENTER);
-		frame.setSize(500, 500);
-		frame.setVisible(true);
+		Frame frame = new Frame(panel);
+
 
 		this.port = port;
 
