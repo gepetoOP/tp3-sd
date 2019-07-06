@@ -29,58 +29,58 @@ public class Writer{
 		}
 	}
 
-	public void server() throws IOException{
-		server = new ServerSocket(6789);
-		System.out.println(ConsoleColors.YELLOW + "SERVIDOR (Writer): Servidor criado");
-		new Thread(() ->{
-			try {
-				while(true){
-					Socket client = server.accept();
-					new Thread(() ->{
-						try {
-							System.out.println(ConsoleColors.YELLOW + "SERVIDOR (Writer): Conexao aberta com " + client.getRemoteSocketAddress());
+//	public void server() throws IOException{
+//		server = new ServerSocket(6789);
+//		System.out.println(ConsoleColors.YELLOW + "SERVIDOR (Writer): Servidor criado");
+//		new Thread(() ->{
+//			try {
+//				while(true){
+//					Socket client = server.accept();
+//					new Thread(() ->{
+//						try {
+//							System.out.println(ConsoleColors.YELLOW + "SERVIDOR (Writer): Conexao aberta com " + client.getRemoteSocketAddress());
+//
+//							ObjectOutputStream outStream = new ObjectOutputStream(client.getOutputStream());
+//							ObjectInputStream inStream = new ObjectInputStream(client.getInputStream());
+//
+//							Object [] msg = (Object []) inStream.readObject();
+//							System.out.println(ConsoleColors.YELLOW + "SERVIDOR (Writer): Mensagem Recebida de " + client.getRemoteSocketAddress());
+//
+//							msgHandler(msg, inStream, outStream, client);
+//
+//							inStream.close();
+//							outStream.close();
+//							client.close();
+//						} catch (IOException | ClassNotFoundException e) {
+//							e.printStackTrace();
+//						}
+//					}).start();
+//				}
+//			} catch (IOException e1) {
+//				e1.printStackTrace();
+//			}
+//		}).start();
+//	}
 
-							ObjectOutputStream outStream = new ObjectOutputStream(client.getOutputStream());
-							ObjectInputStream inStream = new ObjectInputStream(client.getInputStream());
-
-							Object [] msg = (Object []) inStream.readObject();
-							System.out.println(ConsoleColors.YELLOW + "SERVIDOR (Writer): Mensagem Recebida de " + client.getRemoteSocketAddress());
-
-							msgHandler(msg, inStream, outStream, client);
-
-							inStream.close();
-							outStream.close();
-							client.close();
-						} catch (IOException | ClassNotFoundException e) {
-							e.printStackTrace();
-						}
-					}).start();
-				}
-			} catch (IOException e1) {
-				e1.printStackTrace();
-			}
-		}).start();
-	}
-
-	private synchronized void msgHandler(Object[] msg, ObjectInputStream inStream, ObjectOutputStream outStream, Socket client) {
-		String host = client.getRemoteSocketAddress().toString();
-		System.out.println(ConsoleColors.YELLOW_BRIGHT + "OBSERVER (Writer): Mensagem recebida de " + host);
-		int msg_type = (int) msg[0];
-		try {
-			switch (msg_type) {
-				case 1:
-					String data = (String) msg[1];
-					subjects.add(data);
-					break;
-
-				default:
-					System.err.println("OBSERVER: Bad Request ERROR 500");
-					break;
-			}
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-	}
+//	private synchronized void msgHandler(Object[] msg, ObjectInputStream inStream, ObjectOutputStream outStream, Socket client) {
+//		String host = client.getRemoteSocketAddress().toString();
+//		System.out.println(ConsoleColors.YELLOW_BRIGHT + "OBSERVER (Writer): Mensagem recebida de " + host);
+//		int msg_type = (int) msg[0];
+//		try {
+//			switch (msg_type) {
+//				case 1:
+//					String data = (String) msg[1];
+//					subjects.add(data);
+//					break;
+//
+//				default:
+//					System.err.println("OBSERVER: Bad Request ERROR 500");
+//					break;
+//			}
+//		} catch (Exception e) {
+//			e.printStackTrace();
+//		}
+//	}
 
 	public void generateDot() throws IOException{
 		int [] color = new int[3];
@@ -124,7 +124,7 @@ public class Writer{
 
 			subjIp = subjects.get(pos);
 			sub = new Socket();
-			sub.connect(new InetSocketAddress(subjIp, Configs.SUBJECT_PORTA), 1500);
+			sub.connect(new InetSocketAddress(subjIp, Integer.parseInt("4321")), 1500);
 			sub.setSoTimeout(1500);
 			inSub = new ObjectInputStream(sub.getInputStream());
 			outSub = new ObjectOutputStream(sub.getOutputStream());
