@@ -73,7 +73,7 @@ public class Writer{
 
 			subjIp = subjects.get(pos);
 			sub = new Socket();
-			sub.connect(new InetSocketAddress(subjIp, Integer.parseInt(Configs.SUBJECT_PORTA)), 1500);
+			sub.connect(new InetSocketAddress(subjIp, Integer.parseInt(Configs.SUBJECT_PORTA_STRING)), 1500);
 			sub.setSoTimeout(1500);
 			inSub = new ObjectInputStream(sub.getInputStream());
 			outSub = new ObjectOutputStream(sub.getOutputStream());

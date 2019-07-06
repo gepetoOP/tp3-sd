@@ -75,7 +75,7 @@ public class Subject {
 			if(subsIp_port.isEmpty()) {
 				for(String subjectIp : remainingSubjects){
 
-					soc = new Socket(subjectIp, Integer.parseInt(Configs.SUBJECT_PORTA));
+					soc = new Socket(subjectIp, Configs.SUBJECT_PORTA);
 					soc.setSoTimeout(1500);
 					ObjectInputStream inSoc = new ObjectInputStream(soc.getInputStream());
 					ObjectOutputStream outSoc = new ObjectOutputStream(soc.getOutputStream());
@@ -99,7 +99,7 @@ public class Subject {
 	}
 
 	public void server() throws IOException{
-		server = new ServerSocket(Integer.parseInt(Configs.SUBJECT_PORTA));
+		server = new ServerSocket(Configs.SUBJECT_PORTA);
 		print("(Subject.server) SERVER CREATED");
 		new Thread(() ->{
 			try {
@@ -231,7 +231,7 @@ public class Subject {
 			for(String sIp : subjects){
 				try{
 					sub = new Socket();
-					sub.connect(new InetSocketAddress(sIp, Integer.parseInt(Configs.SUBJECT_PORTA)), 1500);
+					sub.connect(new InetSocketAddress(sIp, Configs.SUBJECT_PORTA), 1500);
 					sub.setSoTimeout(1500);
 					inSub = new ObjectInputStream(sub.getInputStream());
 					outSub = new ObjectOutputStream(sub.getOutputStream());
@@ -253,7 +253,7 @@ public class Subject {
 						Object [] msg1 = {3};
 						for(String subjIp : subjects) {
 							sub = new Socket();
-							sub.connect(new InetSocketAddress(sIp, Integer.parseInt(Configs.SUBJECT_PORTA)), 1500);
+							sub.connect(new InetSocketAddress(sIp, Configs.SUBJECT_PORTA), 1500);
 							sub.setSoTimeout(1500);
 							inSub = new ObjectInputStream(sub.getInputStream());
 							outSub = new ObjectOutputStream(sub.getOutputStream());
