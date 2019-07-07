@@ -108,7 +108,7 @@ public class Writer{
 
 	// FORMATA A SAIDA (ESTETICA)
 	private void print(String s) {
-		System.out.println(ConsoleColors.YELLOW + s + ConsoleColors.RESET);
+		System.out.println(ConsoleColors.GREEN + s + ConsoleColors.RESET);
 	}
 
 }

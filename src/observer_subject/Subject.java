@@ -33,7 +33,7 @@ public class Subject {
 	private List<String> subjects_down = new ArrayList<String>();
 
 	private List<Integer> obsPorts_current = new ArrayList<Integer>();
-	private Map<String, Integer> subs_IpPort;
+	private Map<String, Integer> subs_ip_port;
 
 	private ServerSocket server;
 	private Integer VERSION;
@@ -50,8 +50,8 @@ public class Subject {
 		this.subjects = new ArrayList<String>(remainingSubjects);
 
 		if(!subsIp_port.isEmpty()) {
-			this.subs_IpPort = subsIp_port;
-			obsPorts_current.add(this.subs_IpPort.get(thisIp));
+			this.subs_ip_port = subsIp_port;
+			obsPorts_current.add(this.subs_ip_port.get(thisIp));
 		}
 
 		VERSION = 0;
@@ -83,12 +83,12 @@ public class Subject {
 					if(!send_nuvem){
 						Object [] resp = (Object []) inSoc.readObject(); 
 						dots = (Int2ObjectMap<Dot>) resp[0];
-						this.subs_IpPort = (Map<String,Integer>) resp[1];
+						this.subs_ip_port = (Map<String,Integer>) resp[1];
 					}
 
 					send_nuvem = true;
 				}
-				obsPorts_current.add(this.subs_IpPort.get(thisIp));
+				obsPorts_current.add(this.subs_ip_port.get(thisIp));
 			}
 		} catch (Exception e) {}
 
@@ -105,13 +105,13 @@ public class Subject {
 
 					new Thread(() ->{
 						try {
-							System.err.println(ConsoleColors.PURPLE + "(Subject.server) Opened connection with " + client.getRemoteSocketAddress());
+							print("(Subject.server) Opened connection with " + client.getRemoteSocketAddress());
 
 							ObjectOutputStream outStream = new ObjectOutputStream(client.getOutputStream());
 							ObjectInputStream inStream = new ObjectInputStream(client.getInputStream());
 
 							Object [] msg = (Object []) inStream.readObject();
-							System.err.println(ConsoleColors.PURPLE + "(Subject.server) Received message from " + client.getRemoteSocketAddress());
+							print("(Subject.server) Received message from " + client.getRemoteSocketAddress());
 
 							msgHandler(msg, inStream, outStream, client);
 
@@ -138,7 +138,7 @@ public class Subject {
 			switch (msg_type) {
 			case 1:
 				// recebe atulização de escrita, sincroniza e notifica
-				print("(Subject.msgHandler) RECEIVED WRITE FROM " + host);
+				print("(Subject.msgHandler) Write received from " + host);
 				d = (Dot) msg[1];
 
 				synchronized (dots) {
@@ -195,10 +195,10 @@ public class Subject {
 						str = subjects_down.remove(index);
 						subjects.add(str);
 						boolean send_nuvem = (boolean) msg[2];
-						Object [] resp = {dots, subs_IpPort};
+						Object [] resp = {dots, subs_ip_port};
 						if(!send_nuvem) outStream.writeObject(resp);
 
-						index = obsPorts_current.indexOf(subs_IpPort.get(str.split(":")[0]));
+						index = obsPorts_current.indexOf(subs_ip_port.get(str));
 						if (index != -1){
 							obsPorts_current.remove(index);
 						}
@@ -245,7 +245,7 @@ public class Subject {
 					System.err.println("(Subject.sync) SUBJECT FAIL " + sIp);
 
 					if(!ja_pegaram_porta){
-						obsPorts_current.add(subs_IpPort.get(sIp));
+						obsPorts_current.add(subs_ip_port.get(sIp));
 						Object [] msg1 = {3};
 						for(String subjIp : subjects) {
 							sub = new Socket();

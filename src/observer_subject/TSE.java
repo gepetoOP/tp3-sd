@@ -304,7 +304,7 @@ public class TSE {
 
 	// FORMATA A SAIDA (ESTETICA)
 	private void print(String s) {
-		System.out.println(ConsoleColors.WHITE_BACKGROUND + ConsoleColors.BLACK + s + ConsoleColors.RESET);
+		System.out.println(ConsoleColors.WHITE_BACKGROUND + s + ConsoleColors.RESET);
 	}
 	
 
