@@ -15,6 +15,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Random;
+import java.util.concurrent.CopyOnWriteArrayList;
 
 /*****************
  *
@@ -137,7 +138,8 @@ public class TSE {
 
 
 
-		nWriters = machinesLeft/2;
+//		nWriters = machinesLeft/2;
+		nWriters = Configs.QTD_WRITER;
 		print("(TSE) ASSIGNING WRITERS");
 
 		writers = new ArrayList<String>();
@@ -152,7 +154,8 @@ public class TSE {
 		System.out.println("(TSE) Writers: " + writers);
 
 
-		nObservers = machinesLeft;
+//		nObservers = machinesLeft;
+		nObservers = Configs.QTD_OBSERVER;
 		print("(TSE) ASSIGNING OBSERVERS");
 
 		observers = new ArrayList<>(ips);
