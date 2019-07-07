@@ -30,20 +30,20 @@ public class Writer{
 	}
 
 	public void generateDot() throws IOException{
-		int [] color = new int[3];
+//		int [] color = new int[3];
+//
+//		color[0] = new Random().nextInt(256);
+//		color[1] = new Random().nextInt(256);
+//		color[2] = new Random().nextInt(256);
+//
+//		int x = new Random().nextInt(Configs.TAMANHO_FRAME);
+//		int y = new Random().nextInt(Configs.TAMANHO_FRAME);
+//
+//		int size = new Random().nextInt(10) + 1;
+//
+//		Dot d = new Dot(x,y,color, size);
 
-		color[0] = new Random().nextInt(256);
-		color[1] = new Random().nextInt(256);
-		color[2] = new Random().nextInt(256);
-
-		int x = new Random().nextInt(Configs.TAMANHO_FRAME);
-		int y = new Random().nextInt(Configs.TAMANHO_FRAME);
-
-		int size = new Random().nextInt(10) + 1;
-
-		Dot d = new Dot(x,y,color, size);
-
-//		Dot d = new Dot();
+		Dot d = new Dot();
 
 		write(d);
 	}
