@@ -29,6 +29,9 @@ public class Observer {
     private int port;
 
     public Observer(int port){
+
+        print("(Observer) ----- OBSERVER ----- ");
+
         panel = new Panel();
         Frame frame = new Frame(panel);
 
