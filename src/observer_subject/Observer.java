@@ -46,6 +46,9 @@ public class Observer {
     }
 
     public void server() throws IOException, ClassNotFoundException{
+
+        print("(Observer.server) ----- OBSERVER ----- ");
+
         DatagramPacket packet = null;
         DatagramSocket socket = new DatagramSocket(port, InetAddress.getByName("0.0.0.0"));
         socket.setBroadcast(true);

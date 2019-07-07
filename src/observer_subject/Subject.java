@@ -43,12 +43,14 @@ public class Subject {
 	@SuppressWarnings("unchecked")
 	public Subject(List<String> remainingSubjects, Map<String,Integer> subsIp_port, String thisIp){
 
+        print("(Subject) ----- SUBJECT ----- ");
+
 		this.otherSubjects = new ArrayList<String>(remainingSubjects);
 
-//		if(!subsIp_port.isEmpty()) {
-//			this.subs_ip_port = subsIp_port;
-//			obsPorts_current.add(this.subs_ip_port.get(thisIp));
-//		}
+		if(!subsIp_port.isEmpty()) {
+			this.subs_ip_port = subsIp_port;
+			obsPorts_current.add(this.subs_ip_port.get(thisIp));
+		}
 
 		try {
 			nuvemInicial(Configs.TAMANHO_NUVEM_INICIAL);

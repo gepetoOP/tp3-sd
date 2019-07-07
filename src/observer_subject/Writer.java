@@ -20,6 +20,9 @@ public class Writer{
 	private int lastPosition = -1;
 
 	public Writer(List<String> subjects){
+
+        print("(Writer) ----- WRITER ----- ");
+
 		this.subjects = subjects;
 
 		try {
