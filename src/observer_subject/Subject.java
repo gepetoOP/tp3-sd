@@ -154,6 +154,7 @@ public class Subject {
 
 			case 3:
 				// recebe
+                print("(Subject.msgHandler) porTaken set to TRUE - " + host);
 				portTaken = true;
 				break;
 

@@ -271,21 +271,12 @@ public class TSE {
 							String sub = null;
 
 
-							// TODO: TESTAR!
 							if(subjects.contains(senderIp)) {
 								remainingSubjects.remove(senderIp);
 								sub = senderIp;
 							}
 
-//							for(String s : subjects) {
-//								if(s.contains(senderIp)) {
-//									remainingSubjects.remove(s);
-//									sub = s;
-//									break;
-//								}
-//							}
 
-							
 							Object [] msg = {sub, remainingSubjects};
 							outStream.writeObject(msg);
 
