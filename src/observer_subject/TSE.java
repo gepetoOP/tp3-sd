@@ -278,8 +278,15 @@ public class TSE {
 								sub = senderIp;
 							}
 
+							int newPort;
 
-							Object [] msg = {ipFail, remainingSubjects};
+							if(o_ip_port.get(ipFail) == Configs.OBSERVER_PORTA){
+								newPort = Configs.OBSERVER_PORTA+1;
+							} else {
+								newPort = Configs.OBSERVER_PORTA;
+							}
+
+							Object [] msg = {ipFail, remainingSubjects, newPort};
 							outStream.writeObject(msg);
 
 							inStream.close();

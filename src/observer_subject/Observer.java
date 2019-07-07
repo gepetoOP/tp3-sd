@@ -104,6 +104,10 @@ public class Observer {
                     printDots(nuvemUpdate);
                     print("(Observer.msgHandler) RECEIVED VERSION: " + VERSION);
                     break;
+                case 5:	// subject caiu
+                    port = (int) msg[2];
+                    print("(Observer.msgHandler) CHANGED PORT: " + port);
+                    break;
                 default:
                     System.err.println("(Observer.msgHandler) Bad Request ERROR 500");
                     break;
