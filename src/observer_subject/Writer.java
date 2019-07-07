@@ -16,7 +16,7 @@ public class Writer{
 	private List<String> subjects;
 	private int ERROR=0;
 	private int WRT_SUB = 0;
-	private ServerSocket server;
+//	private ServerSocket server;
 	private int lastPosition = -1;
 
 	public Writer(List<String> subjects){
@@ -30,20 +30,20 @@ public class Writer{
 	}
 
 	public void generateDot() throws IOException{
-//		int [] color = new int[3];
-//
-//		color[0] = new Random().nextInt(256);
-//		color[1] = new Random().nextInt(256);
-//		color[2] = new Random().nextInt(256);
-//
-//		int x = new Random().nextInt(Configs.TAMANHO_FRAME);
-//		int y = new Random().nextInt(Configs.TAMANHO_FRAME);
-//
-//		int size = new Random().nextInt(10) + 1;
-//
-//		Dot d = new Dot(x,y,color, size);
+		int [] color = new int[3];
 
-		Dot d = new Dot();
+		color[0] = new Random().nextInt(256);
+		color[1] = new Random().nextInt(256);
+		color[2] = new Random().nextInt(256);
+
+		int x = new Random().nextInt(Configs.TAMANHO_FRAME);
+		int y = new Random().nextInt(Configs.TAMANHO_FRAME);
+
+		int size = new Random().nextInt(10) + 1;
+
+		Dot d = new Dot(x,y,color, size);
+
+//		Dot d = new Dot();
 
 		write(d);
 	}
@@ -73,7 +73,7 @@ public class Writer{
 
 			subjIp = subjects.get(pos);
 			sub = new Socket();
-			sub.connect(new InetSocketAddress(subjIp, Integer.parseInt(Configs.SUBJECT_PORTA_STRING)), 1500);
+			sub.connect(new InetSocketAddress(subjIp, Integer.parseInt("4321")), 1500);
 			sub.setSoTimeout(1500);
 			inSub = new ObjectInputStream(sub.getInputStream());
 			outSub = new ObjectOutputStream(sub.getOutputStream());

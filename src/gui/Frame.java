@@ -13,12 +13,6 @@ public class Frame extends JFrame{
 
 	public static void main(String[] args) {
 
-		JFrame frame = new JFrame();
-		frame.setLayout(new BorderLayout());
-		frame.add(new Panel(), BorderLayout.CENTER);
-		frame.setSize(500, 500);
-		frame.setVisible(true);
-		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 	}
 
 	public Frame(Panel panel) {
