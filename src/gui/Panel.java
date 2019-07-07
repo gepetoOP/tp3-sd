@@ -30,7 +30,6 @@ public class Panel extends JPanel {
 		g.dispose();
 	}
 
-	// TODO
 	public void removeDot(Dot dot){
 		Graphics g = image.getGraphics();
 		g.setColor(new Color(0,0,0));
@@ -38,8 +37,7 @@ public class Panel extends JPanel {
 		g.dispose();
 	}
 
-	// TODO
-	public void editDot(int x, int y){
+		public void editDot(int x, int y){
 		Graphics g = image.getGraphics();
 		g.setColor(new Color(0,0,0));
 		g.fillOval(x, y, 5, 5);

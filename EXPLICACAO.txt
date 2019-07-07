@@ -63,6 +63,7 @@ MAQUINAS INVOKER:
 
 
 SUBJECT:
+    subject(ips_dos_outros_subjects, todos_os_subjects_ip_e_porta, proprio_ip)
 
 
 OBSERVER:

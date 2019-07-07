@@ -26,8 +26,8 @@ import misc.ConsoleColors;
 
 public class Subject {
 	private Int2ObjectMap<Dot> dots = new Int2ObjectOpenHashMap<Dot>();
-	private List<String> subjects;
-	private List<String> subjects_down = new ArrayList<String>();
+	private List<String> otherSubjects;
+	private List<String> subjectsDown = new ArrayList<String>();
 
 	private List<Integer> obsPorts_current = new ArrayList<Integer>();
 	private Map<String, Integer> subs_ip_port;
@@ -44,7 +44,7 @@ public class Subject {
 	@SuppressWarnings("unchecked")
 	public Subject(List<String> remainingSubjects, Map<String,Integer> subsIp_port, String thisIp){
 
-		this.subjects = new ArrayList<String>(remainingSubjects);
+		this.otherSubjects = new ArrayList<String>(remainingSubjects);
 
 		if(!subsIp_port.isEmpty()) {
 			this.subs_ip_port = subsIp_port;
@@ -65,28 +65,28 @@ public class Subject {
 		try{
 			server();
 
-			if(subsIp_port.isEmpty()) {
-				for(String subjectIp : remainingSubjects){
-
-					soc = new Socket(subjectIp, Configs.SUBJECT_PORTA);
-					soc.setSoTimeout(1500);
-					ObjectInputStream inSoc = new ObjectInputStream(soc.getInputStream());
-					ObjectOutputStream outSoc = new ObjectOutputStream(soc.getOutputStream());
-
-					Object [] msg = {4, thisIp, send_nuvem};
-
-					outSoc.writeObject(msg);
-
-					if(!send_nuvem){
-						Object [] resp = (Object []) inSoc.readObject(); 
-						dots = (Int2ObjectMap<Dot>) resp[0];
-						this.subs_ip_port = (Map<String,Integer>) resp[1];
-					}
-
-					send_nuvem = true;
-				}
-				obsPorts_current.add(this.subs_ip_port.get(thisIp));
-			}
+//			if(subsIp_port.isEmpty()) {
+//				for(String subjectIp : remainingSubjects){
+//
+//					soc = new Socket(subjectIp, Configs.SUBJECT_PORTA);
+//					soc.setSoTimeout(1500);
+//					ObjectInputStream inSoc = new ObjectInputStream(soc.getInputStream());
+//					ObjectOutputStream outSoc = new ObjectOutputStream(soc.getOutputStream());
+//
+//					Object [] msg = {4, thisIp, send_nuvem};
+//
+//					outSoc.writeObject(msg);
+//
+//					if(!send_nuvem){
+//						Object [] resp = (Object []) inSoc.readObject();
+//						dots = (Int2ObjectMap<Dot>) resp[0];
+//						this.subs_ip_port = (Map<String,Integer>) resp[1];
+//					}
+//
+//					send_nuvem = true;
+//				}
+//				obsPorts_current.add(this.subs_ip_port.get(thisIp));
+//			}
 		} catch (Exception e) {}
 
 	}
@@ -184,13 +184,13 @@ public class Subject {
 
 			case 4:
 				// recebe notificação de que o sub voltou
-				synchronized(subjects){
+				synchronized(otherSubjects){
 					String ipPort = (String) msg[1];
-					int index = subjects_down.indexOf(ipPort);
+					int index = subjectsDown.indexOf(ipPort);
 					String str = null;
 					if (index != -1){
-						str = subjects_down.remove(index);
-						subjects.add(str);
+						str = subjectsDown.remove(index);
+						otherSubjects.add(str);
 						boolean send_nuvem = (boolean) msg[2];
 						Object [] resp = {dots, subs_ip_port};
 						if(!send_nuvem) outStream.writeObject(resp);
@@ -220,8 +220,8 @@ public class Subject {
 		ObjectInputStream inSub = null;
 		ObjectOutputStream outSub = null;
 
-		synchronized (subjects) {
-			for(String sIp : subjects){
+		synchronized (otherSubjects) {
+			for(String sIp : otherSubjects){
 				try{
 					sub = new Socket();
 					sub.connect(new InetSocketAddress(sIp, Configs.SUBJECT_PORTA), 1500);
@@ -236,15 +236,15 @@ public class Subject {
 					SUB_SUB++;
 					print("(Subject.sync) Conections SUB_SUB: " + SUB_SUB);
 				}catch (Exception e) {
-					subjects.remove(sIp);
-					subjects_down.add(sIp);
+					otherSubjects.remove(sIp);
+					subjectsDown.add(sIp);
 
 					System.err.println("(Subject.sync) SUBJECT FAIL " + sIp);
 
 					if(!ja_pegaram_porta){
 						obsPorts_current.add(subs_ip_port.get(sIp));
 						Object [] msg1 = {3};
-						for(String subjIp : subjects) {
+						for(String subjIp : otherSubjects) {
 							sub = new Socket();
 							sub.connect(new InetSocketAddress(sIp, Configs.SUBJECT_PORTA), 1500);
 							sub.setSoTimeout(1500);
