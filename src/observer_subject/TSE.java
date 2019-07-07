@@ -82,9 +82,9 @@ public class TSE {
 
 
 		List<Integer> obs_ports = new ArrayList<Integer>();
-		obs_ports.add(3321);
-		obs_ports.add(3322);
-		obs_ports.add(3323);
+		for(int i=0; i<Configs.QTD_SUBJECTS; i++){
+			obs_ports.add(Configs.OBSERVER_PORTA + i);
+		}
 
 
 		TSE tse = new TSE(ips, obs_ports);
@@ -159,7 +159,7 @@ public class TSE {
 		o_ip_port = new HashMap<String, Integer>();
 
 		for(int i=0; i<nObservers; i++){
-			o_ip_port.put(observers.get(i), obs_ports.get(i%3));
+			o_ip_port.put(observers.get(i), obs_ports.get(i%Configs.QTD_SUBJECTS));
 		}
 		print("(TSE) Observers: " + observers);
 
