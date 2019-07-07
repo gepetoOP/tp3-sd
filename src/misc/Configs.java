@@ -27,6 +27,7 @@ public class Configs {
     public static final int OBSERVER_PORTA = 1234;
 
     public static final int TAMANHO_FRAME = 750;
+    public static final int TAMANHO_PANEL = Configs.TAMANHO_FRAME+50;
     public static final int TAMANHO_PONTO = 10;
 
 

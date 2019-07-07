@@ -15,10 +15,7 @@ import java.net.ServerSocket;
 import java.net.Socket;
 import java.net.SocketException;
 import java.net.UnknownHostException;
-import java.util.ArrayList;
-import java.util.Enumeration;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 import gui.Dot;
 import it.unimi.dsi.fastutil.ints.Int2ObjectMap;
@@ -308,7 +305,20 @@ public class Subject {
 
 	public void nuvemInicial(int size) throws IOException {
 		for(int i=0;i<size;i++){
-			Dot d = new Dot();
+            int [] color = new int[3];
+
+            color[0] = new Random().nextInt(256);
+            color[1] = new Random().nextInt(256);
+            color[2] = new Random().nextInt(256);
+
+            int x = new Random().nextInt(Configs.TAMANHO_FRAME);
+            int y = new Random().nextInt(Configs.TAMANHO_FRAME);
+
+            int s = new Random().nextInt(Configs.TAMANHO_PONTO) + 1;
+
+            Dot d = new Dot(x,y,color, s);
+
+//            Dot d = new Dot();
 			dotBatch.put(d.getId(), d);
 		}
 		dots.putAll(dotBatch);

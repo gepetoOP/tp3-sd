@@ -11,7 +11,7 @@ import javax.swing.JPanel;
 public class Panel extends JPanel {
 	private static final long serialVersionUID = 1L;
 	
-	private final BufferedImage image = new BufferedImage(Configs.TAMANHO_FRAME, Configs.TAMANHO_FRAME, BufferedImage.TYPE_INT_RGB);
+	private final BufferedImage image = new BufferedImage(Configs.TAMANHO_PANEL, Configs.TAMANHO_PANEL, BufferedImage.TYPE_INT_RGB);
 
 	public Panel(){
 
@@ -20,7 +20,7 @@ public class Panel extends JPanel {
 	@Override
 	protected void paintComponent(Graphics g) {
 		super.paintComponent(g);
-		g.drawImage(image, 5, 5, this);
+		g.drawImage(image, 10, 10, this);
 	}
 
 	public void addDot(Dot dot){

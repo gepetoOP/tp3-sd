@@ -17,7 +17,7 @@ public class Dot implements Serializable{
 	private int id;
 	private int x;
 	private int y;
-	private int [] color;
+	private int[] color = new int[3];
 	private int size;
 
 	public Dot(){
@@ -32,7 +32,7 @@ public class Dot implements Serializable{
 		this.x = new Random().nextInt(Configs.TAMANHO_FRAME);
 		this.y = new Random().nextInt(Configs.TAMANHO_FRAME);
 
-		size = new Random().nextInt(Configs.TAMANHO_PONTO) + 1;
+		this.size = new Random().nextInt(Configs.TAMANHO_PONTO) + 1;
 	}
 
 	public Dot(int x, int y, int [] color, int size){
