@@ -249,7 +249,7 @@ public class TSE {
 
 	public void server() throws IOException{
 		ServerSocket servidor = new ServerSocket(Configs.TSE_PORTA);
-		System.out.println(ConsoleColors.WHITE + "(TSE.server) SERVER CREATED");
+		print(ConsoleColors.WHITE + "(TSE.server) SERVER CREATED");
 
 		new Thread(() ->{
 			try {
@@ -263,7 +263,9 @@ public class TSE {
 							ObjectOutputStream outStream = new ObjectOutputStream(client.getOutputStream());
 							ObjectInputStream inStream = new ObjectInputStream(client.getInputStream());
 
-							inStream.readObject();
+							Object[] fail_msg = (Object []) inStream.readObject();
+							String ipFail = (String) fail_msg[0];
+
 							String senderIp = ((InetSocketAddress) client.getRemoteSocketAddress()).getAddress().toString().replaceAll("/", "");
 							print("(TSE) Received message from " + senderIp);
 							
@@ -271,13 +273,13 @@ public class TSE {
 							String sub = null;
 
 
-							if(subjects.contains(senderIp)) {
-								remainingSubjects.remove(senderIp);
+							if(subjects.contains(ipFail)) {
+								remainingSubjects.remove(ipFail);
 								sub = senderIp;
 							}
 
 
-							Object [] msg = {sub, remainingSubjects};
+							Object [] msg = {ipFail, remainingSubjects};
 							outStream.writeObject(msg);
 
 							inStream.close();
@@ -298,7 +300,7 @@ public class TSE {
 
 	// FORMATA A SAIDA (ESTETICA)
 	private void print(String s) {
-		System.out.println(ConsoleColors.WHITE_BACKGROUND + s + ConsoleColors.RESET);
+		System.out.println(ConsoleColors.WHITE + s + ConsoleColors.RESET);
 	}
 	
 

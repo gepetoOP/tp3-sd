@@ -89,6 +89,24 @@ public class Writer{
 		}catch(Exception e){
 			System.err.println("(Writer.write) SUBJECT FAIL: " + subjIp);
 
+            Socket wrt;
+            try {
+                print("(Writer.write) TESTE " + Configs.IP_TSE);
+                wrt = new Socket(Configs.IP_TSE, Configs.TSE_PORTA);
+                wrt.setSoTimeout(1500);
+                ObjectInputStream inWrt = new ObjectInputStream(wrt.getInputStream());
+                ObjectOutputStream outWrt = new ObjectOutputStream(wrt.getOutputStream());
+
+                Object [] args = {subjIp, subjects};
+                outWrt.writeObject(args);
+
+                inWrt.close();
+                outWrt.close();
+                wrt.close();
+
+            } catch (NumberFormatException | IOException e2) {
+                e2.printStackTrace();
+            }
 
 			String str = subjects.remove(0);
 			subjects.add(str);
