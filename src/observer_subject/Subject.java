@@ -23,6 +23,8 @@ import java.util.Map;
 import gui.Dot;
 import it.unimi.dsi.fastutil.ints.Int2ObjectMap;
 import it.unimi.dsi.fastutil.ints.Int2ObjectOpenHashMap;
+import misc.Configs;
+import misc.ConsoleColors;
 
 
 public class Subject {
@@ -235,12 +237,12 @@ public class Subject {
 					inSub.readObject();
 
 					SUB_SUB++;
-					System.out.println(ConsoleColors.PURPLE_BACKGROUND + "(Subject) Conexoes SUB_SUB: " + SUB_SUB);
+					print("(Subject.sync) Conections SUB_SUB: " + SUB_SUB);
 				}catch (Exception e) {
 					subjects.remove(sIp);
 					subjects_down.add(sIp);
 
-					System.err.println("(Subject) falha no subject " + sIp);
+					System.err.println("(Subject.sync) SUBJECT FAIL " + sIp);
 
 					if(!ja_pegaram_porta){
 						obsPorts_current.add(subs_IpPort.get(sIp));

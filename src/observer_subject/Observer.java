@@ -1,15 +1,12 @@
 package observer_subject;
 
-import java.awt.*;
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.io.ObjectInputStream;
-import java.io.ObjectOutputStream;
 import java.net.DatagramPacket;
 import java.net.DatagramSocket;
 import java.net.InetAddress;
 import java.net.ServerSocket;
-import java.net.Socket;
 
 import gui.Dot;
 import gui.Frame;
@@ -17,8 +14,7 @@ import gui.Panel;
 
 import it.unimi.dsi.fastutil.ints.Int2ObjectMap;
 import it.unimi.dsi.fastutil.ints.Int2ObjectOpenHashMap;
-
-import javax.swing.*;
+import misc.ConsoleColors;
 
 
 public class Observer {

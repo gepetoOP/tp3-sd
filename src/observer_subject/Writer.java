@@ -4,12 +4,13 @@ import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.net.InetSocketAddress;
-import java.net.ServerSocket;
 import java.net.Socket;
 import java.util.List;
 import java.util.Random;
 
 import gui.Dot;
+import misc.Configs;
+import misc.ConsoleColors;
 
 public class Writer{
 

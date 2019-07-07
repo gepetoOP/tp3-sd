@@ -1,4 +1,9 @@
-MAQUINA COM O TSE: 
+TODO: entender a server() do TSE
+
+
+
+
+MAQUINA COM O TSE:
 
 	ela que vai distribuir as outras entre Subject, Observer e Writer, aleatoriamente.
 		numero de Subject é fixo (define na classe TSE)
@@ -18,7 +23,7 @@ MAQUINA COM O TSE:
 		
 	Execução:
 		Main()
-			pega os ip de todo mundo
+			pega os ip de td mundo
 			pega as portas dos observers (??????????????????????? ENTENDER DIREITO ISSO)
 			TSE()
 				"sorteia" o que que cada máquina vai ser
@@ -44,5 +49,24 @@ MAQUINAS INVOKER:
 	(e chama o construtor certo tmb, no caso)
 
 
+	main():
+	    chama o construtor
 
-OBS: QUASE CERTEZA QUE SE DELETAR AS MAIN NÃO DÁ NADA, MAS TEM QUE TESTAR
+	invoker()
+	    fica escutando na porta 6789 (Configs.INVOKER_PORTA)
+	    recebe mensagem do TSE -> msgHnadler()
+
+	msgHnadler()
+	    olha se vai ser Subject, Observer ou Writer
+	    chama o respectivo contrutor
+
+
+
+SUBJECT:
+
+
+OBSERVER:
+
+
+WRITER:
+

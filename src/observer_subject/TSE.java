@@ -1,5 +1,8 @@
 package observer_subject;
 
+import misc.Configs;
+import misc.ConsoleColors;
+
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
@@ -15,6 +18,7 @@ import java.util.Random;
 
 /*****************
  *
+ * TODO: pq das obs_port?? (pq nao pode ser a mesma porta?)
  *  Porque a separacao de writers e observers?? (nao tem writer no enunciado)
  *
  *  nao entendi a distribuiçao de portas pros observers e subjects??? (linha 143, 2 ultimos for do construtor)
@@ -27,19 +31,19 @@ import java.util.Random;
 
 public class TSE {
 
-	private int totalMaquinas;
-
+	private int totalMachines;
 	private int nSubjects = Configs.QTD_SUBJECTS;
+
 	private List<String> subjects;
-	private Map<String,Integer> subsIp_port;
+	private Map<String,Integer> s_ip_port;
 
 	private int nWriters;
 	private List<String> writers;
-	private Map<String,Integer> wriIp_port;
+	private Map<String,Integer> w_ip_port;
 
 	private int nObservers;
 	private List<String> observers;
-	private Map<String,Integer> obsIp_port;
+	private Map<String,Integer> o_ip_port;
 
 
 
@@ -111,50 +115,51 @@ public class TSE {
 	}
 
 	public TSE(ArrayList<String> ips, List<Integer> obs_ports){
-		totalMaquinas = ips.size();
+		totalMachines = ips.size();
 
-		int nMaquinas = totalMaquinas;
+		int machinesLeft = totalMachines;
 		print("(TSE) ASSIGNING SUBJECTS");
 
 		subjects = new ArrayList<String>();
-		subsIp_port = new HashMap<String, Integer>();
+		s_ip_port = new HashMap<String, Integer>();
 
 		while(subjects.size() < nSubjects){
-			int pos = new Random().nextInt(nMaquinas);
+			int pos = new Random().nextInt(machinesLeft);
 			if(!subjects.contains(ips.get(pos))){
 				subjects.add(ips.remove(pos));
-				nMaquinas = ips.size();
+				machinesLeft = ips.size();
 			}
 		}
 		for(int i=0; i<nSubjects; i++){
-			subsIp_port.put(subjects.get(i),obs_ports.get(i%3));
+			s_ip_port.put(subjects.get(i),obs_ports.get(i%3));
 		}
 		print("(TSE) Subjects: " + subjects);
 
 
-		nWriters = nMaquinas/2;
+
+		nWriters = machinesLeft/2;
 		print("(TSE) ASSIGNING WRITERS");
 
 		writers = new ArrayList<String>();
 
 		while(writers.size() < nWriters){
-			int pos = new Random().nextInt(nMaquinas);
+			int pos = new Random().nextInt(machinesLeft);
 			if (!writers.contains(ips.get(pos))){
 				writers.add(ips.remove(pos));
-				nMaquinas = ips.size();
+				machinesLeft = ips.size();
 			}
 		}
 		System.out.println("(TSE) Writers: " + writers);
 
 
-		nObservers = nMaquinas;
+		nObservers = machinesLeft;
 		print("(TSE) ASSIGNING OBSERVERS");
 
 		observers = new ArrayList<>(ips);
-		obsIp_port = new HashMap<String, Integer>();
+		o_ip_port = new HashMap<String, Integer>();
 
 		for(int i=0; i<nObservers; i++){
-			obsIp_port.put(observers.get(i), obs_ports.get(i%3));
+			o_ip_port.put(observers.get(i), obs_ports.get(i%3));
 		}
 		print("(TSE) Observers: " + observers);
 
@@ -164,12 +169,12 @@ public class TSE {
 
 	public void invokeObservers(){
 		
-		for(Entry<String,Integer> obsIp_port : this.obsIp_port.entrySet()){
-			String thisIp = obsIp_port.getKey();
-			Integer thisPort = obsIp_port.getValue();
+		for(Entry<String,Integer> obs_ip_port : o_ip_port.entrySet()){
+			String thisIp = obs_ip_port.getKey();
+			Integer thisPort = obs_ip_port.getValue();
 			Socket obs;
 			try {
-				print("(TSE.invokeObservers) observer: " + thisIp);
+				print("(TSE.invokeObservers) invoking observer: " + thisIp);
 				obs = new Socket(thisIp, Configs.INVOKER_PORTA);
 				obs.setSoTimeout(1500);
 				ObjectInputStream inObs = new ObjectInputStream(obs.getInputStream());
@@ -194,7 +199,7 @@ public class TSE {
 		for(String thisIp : subjects){
 			Socket sub;
 			try {
-				print("(TSE.invokeSubjects) subject: " + thisIp);
+				print("(TSE.invokeSubjects) invoking subject: " + thisIp);
 				sub = new Socket(thisIp, Configs.INVOKER_PORTA);
 				sub.setSoTimeout(1500);
 				ObjectInputStream inSub = new ObjectInputStream(sub.getInputStream());
@@ -203,7 +208,7 @@ public class TSE {
 				List<String> remainingSubjects = new ArrayList<String>(subjects);
 				remainingSubjects.remove(thisIp);
 
-				Object [] args = {1, remainingSubjects, subsIp_port, thisIp};
+				Object [] args = {1, remainingSubjects, s_ip_port, thisIp};
 				outSub.writeObject(args);
 
 				inSub.close();
@@ -220,7 +225,7 @@ public class TSE {
 		for(String wri_ip : writers){
 			Socket wrt;
 			try {
-				print("(TSE.invokeWriters) writer: " + wri_ip);
+				print("(TSE.invokeWriters) invoking writer: " + wri_ip);
 				wrt = new Socket(wri_ip, Configs.INVOKER_PORTA);
 				wrt.setSoTimeout(1500);
 				ObjectInputStream inWrt = new ObjectInputStream(wrt.getInputStream());

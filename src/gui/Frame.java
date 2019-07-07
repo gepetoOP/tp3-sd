@@ -1,6 +1,6 @@
 package gui;
 
-import observer_subject.Configs;
+import misc.Configs;
 
 import java.awt.BorderLayout;
 

@@ -1,5 +1,8 @@
 package observer_subject;
 
+import misc.Configs;
+import misc.ConsoleColors;
+
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
@@ -7,6 +10,7 @@ import java.net.ServerSocket;
 import java.net.Socket;
 import java.util.List;
 import java.util.Map;
+
 
 public class Invoker {
 
@@ -60,14 +64,17 @@ public class Invoker {
 		int msg_type = (int) msg[0];
 		switch(msg_type){
 		case 1:
+			print("(Invoker.msgHandler) ----- SUBJECT ----- ");
 			Subject s = new Subject((List<String>) msg[1], (Map<String, Integer>) msg[2], (String) msg[3]);
 			break;
 
 		case 2:
+			print("(Invoker.msgHandler) ----- WRITER ----- ");
 			Writer w = new Writer((List<String>) msg[1]);
 			break;
 
 		case 3:
+			print("(Invoker.msgHandler) ----- OBSERVER ----- ");
 			Observer o = new Observer((Integer) msg[1]);
 			break;
 

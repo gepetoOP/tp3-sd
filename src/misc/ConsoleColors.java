@@ -1,4 +1,11 @@
-package observer_subject;
+package misc;
+
+/**
+ *
+ * CLASSE PRA COLORIR A SAIDA DO CONSOLE
+ * (so por estetica mesmo)
+ *
+ **/
 
 public class ConsoleColors {
     // Reset

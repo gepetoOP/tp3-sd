@@ -1,6 +1,6 @@
 package gui;
 
-import observer_subject.Configs;
+import misc.Configs;
 
 import java.awt.Color;
 import java.awt.Graphics;
@@ -31,10 +31,10 @@ public class Panel extends JPanel {
 	}
 
 	// TODO
-	public void removeDot(int x, int y){
+	public void removeDot(Dot dot){
 		Graphics g = image.getGraphics();
 		g.setColor(new Color(0,0,0));
-		g.fillOval(x, y, 5, 5);
+		g.fillOval(dot.getX(), dot.getY(), dot.getSize(), dot.getSize());
 		g.dispose();
 	}
 

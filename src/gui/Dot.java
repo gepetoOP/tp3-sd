@@ -1,7 +1,7 @@
 package gui;
 
-import observer_subject.Configs;
-import observer_subject.ConsoleColors;
+import misc.Configs;
+import misc.ConsoleColors;
 
 import java.io.Serializable;
 import java.util.Random;
