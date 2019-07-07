@@ -6,7 +6,6 @@ import java.io.ObjectInputStream;
 import java.net.DatagramPacket;
 import java.net.DatagramSocket;
 import java.net.InetAddress;
-import java.net.ServerSocket;
 
 import gui.Dot;
 import gui.Frame;
@@ -20,8 +19,8 @@ import misc.ConsoleColors;
 public class Observer {
     private Int2ObjectMap<Dot> dots = new Int2ObjectOpenHashMap<Dot>();
     private Panel panel;
-    private ServerSocket server;
-    private Integer version = 0;
+//    private ServerSocket server;
+    private Integer VERSION = 0;
 
     private Long t1;
     private Long t2=(long) 0;
@@ -36,13 +35,13 @@ public class Observer {
         this.port = port;
 
         try {
-            serverUDP();
+            server();
         } catch (IOException | ClassNotFoundException e) {
             e.printStackTrace();
         }
     }
 
-    public void serverUDP() throws IOException, ClassNotFoundException{
+    public void server() throws IOException, ClassNotFoundException{
         DatagramPacket packet = null;
         DatagramSocket socket = new DatagramSocket(port, InetAddress.getByName("0.0.0.0"));
         socket.setBroadcast(true);
@@ -55,7 +54,7 @@ public class Observer {
             socket.receive(packet);
 
             t2 = System.currentTimeMillis();
-            print("(Observer.serverUDP) time: " + (((double) t2.longValue()) - t1.longValue())/1000 + "s");
+            print("(Observer.server) time: " + (((double) t2.longValue()) - t1.longValue())/1000 + "s");
 
             ObjectInputStream iStream;
             iStream = new ObjectInputStream(new ByteArrayInputStream(packet.getData()));
@@ -64,7 +63,7 @@ public class Observer {
                 try {
                     Object[] msg = (Object []) iStream.readObject();
 
-                    msgHandlerUDP(msg);
+                    msgHandler(msg);
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
@@ -73,33 +72,33 @@ public class Observer {
     }
 
     @SuppressWarnings("unchecked")
-    private void msgHandlerUDP(Object[] msg) {
+    private void msgHandler(Object[] msg) {
         int msg_type = (int) msg[0];
-        print("(Observer.msgHandlerUDP) MESSAGE TYPE: " + msg_type);
+        print("(Observer.msgHandler) MESSAGE TYPE: " + msg_type);
         try {
             switch (msg_type) {
                 case 1:	// print a nuvem inteira
                     Int2ObjectMap<Dot> nuvem = (Int2ObjectMap<Dot>) msg[1];
                     dots.putAll(nuvem);
-                    synchronized(version){
-                        version = 1;
+                    synchronized(VERSION){
+                        VERSION = 1;
                     }
                     printDots(nuvem);
-                    print("(Observer.msgHandlerUDP) RECEIVED VERSION: " + version);
+                    print("(Observer.msgHandler) RECEIVED VERSION: " + VERSION);
                     break;
                 case 2:	// print nos pontos atualizados
                     Int2ObjectMap<Dot> nuvemUpdate = (Int2ObjectMap<Dot>) msg[1];
-                    print("(Observer.msgHandlerUDP) size: " + nuvemUpdate.size());
+                    print("(Observer.msgHandler) size: " + nuvemUpdate.size());
                     dots.putAll(nuvemUpdate);
-                    synchronized (version) {
-                        version++;
+                    synchronized (VERSION) {
+                        VERSION++;
                     }
 
                     printDots(nuvemUpdate);
-                    print("(Observer.msgHandlerUDP) RECEIVED VERSION: " + version);
+                    print("(Observer.msgHandler) RECEIVED VERSION: " + VERSION);
                     break;
                 default:
-                    System.err.println("(Observer.msgHandlerUDP) Bad Request ERROR 500");
+                    System.err.println("(Observer.msgHandler) Bad Request ERROR 500");
                     break;
             }
         } catch (Exception e) {

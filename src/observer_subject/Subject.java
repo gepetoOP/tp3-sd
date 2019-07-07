@@ -35,7 +35,7 @@ public class Subject {
     private Map<String, Integer> subs_ip_port;
 
     private ServerSocket server;
-    private Integer VERSION;
+    private Integer VERSION = 0;
 
     private int SUB_SUB = 0;
 	private boolean portTaken = false;
@@ -45,14 +45,10 @@ public class Subject {
 
 		this.otherSubjects = new ArrayList<String>(remainingSubjects);
 
-		if(!subsIp_port.isEmpty()) {
-			this.subs_ip_port = subsIp_port;
-			obsPorts_current.add(this.subs_ip_port.get(thisIp));
-		}
-
-		VERSION = 0;
-
-		boolean send_nuvem = false;
+//		if(!subsIp_port.isEmpty()) {
+//			this.subs_ip_port = subsIp_port;
+//			obsPorts_current.add(this.subs_ip_port.get(thisIp));
+//		}
 
 		try {
 			nuvemInicial(Configs.TAMANHO_NUVEM_INICIAL);
