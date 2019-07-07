@@ -22,7 +22,6 @@ public class Configs {
     public static final int INVOKER_PORTA = 6789;
     public static final int SUBJECT_PORTA = 4321;
 //    public static final String SUBJECT_PORTA_STRING = "4321";
-//    public static final int OBSERVER_PORTA = 1234;
 
     public static final int TAMANHO_FRAME = Configs.TAMANHO_PANEL + 50;
     public static final int TAMANHO_PANEL = 750;

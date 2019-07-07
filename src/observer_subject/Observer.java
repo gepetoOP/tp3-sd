@@ -6,6 +6,7 @@ import java.io.ObjectInputStream;
 import java.net.DatagramPacket;
 import java.net.DatagramSocket;
 import java.net.InetAddress;
+import java.net.ServerSocket;
 
 import gui.Dot;
 import gui.Frame;
@@ -19,7 +20,7 @@ import misc.ConsoleColors;
 public class Observer {
     private Int2ObjectMap<Dot> dots = new Int2ObjectOpenHashMap<Dot>();
     private Panel panel;
-//    private ServerSocket server;
+    private ServerSocket server;
     private Integer VERSION = 0;
 
     private Long t1;
