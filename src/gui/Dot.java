@@ -12,6 +12,8 @@ public class Dot implements Serializable{
 
 	private static int CONSTANT = 123455;
 
+	private static int CONTADOR = 0;
+
 	private int id;
 	private int x;
 	private int y;
@@ -23,14 +25,14 @@ public class Dot implements Serializable{
 
 		this.color = new int[3];
 
-		this.setR(new Random().nextInt(256));
-		this.setG(new Random().nextInt(256));
-		this.setB(new Random().nextInt(256));
+		this.color[0] = new Random().nextInt(256);
+		this.color[1] = new Random().nextInt(256);
+		this.color[2] = new Random().nextInt(256);
 
-		this.setX(new Random().nextInt(Configs.TAMANHO_FRAME));
-		this.setY(new Random().nextInt(Configs.TAMANHO_FRAME));
+		this.x = new Random().nextInt(Configs.TAMANHO_FRAME);
+		this.y = new Random().nextInt(Configs.TAMANHO_FRAME);
 
-		size = new Random().nextInt(10) + 1;
+		size = new Random().nextInt(Configs.TAMANHO_PONTO) + 1;
 	}
 
 	public Dot(int x, int y, int [] color, int size){

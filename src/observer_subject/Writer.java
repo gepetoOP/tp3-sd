@@ -16,7 +16,6 @@ public class Writer{
 	private List<String> subjects;
 	private int ERROR=0;
 	private int WRT_SUB = 0;
-//	private ServerSocket server;
 	private int lastPosition = -1;
 
 	public Writer(List<String> subjects){

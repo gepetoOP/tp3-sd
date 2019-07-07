@@ -24,12 +24,6 @@ import gui.Dot;
 import it.unimi.dsi.fastutil.ints.Int2ObjectMap;
 import it.unimi.dsi.fastutil.ints.Int2ObjectOpenHashMap;
 
-/**
- *
- * TODO
- *
- */
-
 
 public class Subject {
 	private Int2ObjectMap<Dot> dots = new Int2ObjectOpenHashMap<Dot>();
@@ -135,7 +129,7 @@ public class Subject {
 
 	private void msgHandler(Object[] msg, ObjectInputStream inStream, ObjectOutputStream outStream, Socket client){
 		String host = client.getRemoteSocketAddress().toString();
-		//	System.out.println("SUBJECT: Mensagem recebida de " + host);
+			print("(Subject.msgHandler) RECEIVED MESSAGE FROM " + host);
 		Dot d = null;
 		int msg_type = (int) msg[0];
 		try {
