@@ -26,13 +26,12 @@ public class TSE {
 	private int nSubjects = Configs.QTD_SUBJECTS;
 
 	private List<String> subjects;
-	private List<String> subjectsFail;
-	private List<String> subjectsRemaining;
+	private List<String> activeSubjects;
+	private List<String> failedSubjects;
 	private Map<String,Integer> s_ip_port;
 
 	private int nWriters;
 	private List<String> writers;
-	private Map<String,Integer> w_ip_port;
 
 	private int nObservers;
 	private List<String> observers;
@@ -159,7 +158,7 @@ public class TSE {
 		print("(TSE) Observers: " + observers);
 
 
-
+		activeSubjects = subjects;
 	}
 
 	public void invokeObservers(){
@@ -215,31 +214,6 @@ public class TSE {
 		}
 	}
 
-	public void invokeSubject(String ip){
-
-		Socket sub;
-		try {
-			print("(TSE.invokeSubjects) invoking subject: " + ip);
-			sub = new Socket(ip, Configs.INVOKER_PORTA);
-			sub.setSoTimeout(1500);
-			ObjectInputStream inSub = new ObjectInputStream(sub.getInputStream());
-			ObjectOutputStream outSub = new ObjectOutputStream(sub.getOutputStream());
-
-			List<String> remainingSubjects = new ArrayList<String>(subjects);
-			remainingSubjects.remove(ip);
-
-			Object [] args = {1, remainingSubjects, s_ip_port, ip};
-			outSub.writeObject(args);
-
-			inSub.close();
-			outSub.close();
-			sub.close();
-		} catch (NumberFormatException | IOException e) {
-			e.printStackTrace();
-		}
-
-	}
-
 	public void invokeWriters(){
 
 		for(String wri_ip : writers){
@@ -275,6 +249,7 @@ public class TSE {
 
 					new Thread(() ->{
 						try {
+
 							print("(TSE.server) Opened connection with " + client.getRemoteSocketAddress());
 
 							ObjectOutputStream outStream = new ObjectOutputStream(client.getOutputStream());
@@ -285,28 +260,24 @@ public class TSE {
 
 							String senderIp = ((InetSocketAddress) client.getRemoteSocketAddress()).getAddress().toString().replaceAll("/", "");
 							print("(TSE) Received message from " + senderIp);
-							
-							ArrayList<String> remainingSubjects = new ArrayList<String>(subjects);
-							String sub = null;
 
-
-							if(subjects.contains(ipFail)) {
-								remainingSubjects.remove(ipFail);
-								sub = senderIp;
+							if(activeSubjects.contains(ipFail)) {
+								activeSubjects.remove(ipFail);
+								failedSubjects.add(ipFail);
 							}
 
+							int oldPort = o_ip_port.get(ipFail);
 							int newPort;
 
-							if(o_ip_port.get(ipFail) == Configs.OBSERVER_PORTA){
+							if(oldPort == Configs.OBSERVER_PORTA){
 								newPort = Configs.OBSERVER_PORTA+1;
 							} else {
 								newPort = Configs.OBSERVER_PORTA;
 							}
 
-							Object [] msg = {ipFail, remainingSubjects, newPort};
-							outStream.writeObject(msg);
+							contactObservers(oldPort, newPort);
 
-//							invokeSubject(ipFail);
+							invokeSubject(ipFail);
 
 							inStream.close();
 							outStream.close();
@@ -322,6 +293,54 @@ public class TSE {
 		}).start();
 	}
 
+	public void invokeSubject(String ip){
+
+		Socket sub;
+		try {
+			print("(TSE.invokeSubjects) subject: " + ip);
+			sub = new Socket(ip, Configs.INVOKER_PORTA);
+			sub.setSoTimeout(1500);
+			ObjectInputStream inSub = new ObjectInputStream(sub.getInputStream());
+			ObjectOutputStream outSub = new ObjectOutputStream(sub.getOutputStream());
+
+			List<String> remainingSubjects = new ArrayList<String>(subjects);
+			remainingSubjects.remove(ip);
+
+			Object [] args = {1, remainingSubjects, s_ip_port, ip};
+			outSub.writeObject(args);
+
+			inSub.close();
+			outSub.close();
+			sub.close();
+		} catch (NumberFormatException | IOException e) {
+			e.printStackTrace();
+		}
+
+	}
+
+	public void contactObservers(int old_port, int new_port){
+
+		for(String obs_ip : observers){
+			Socket obs;
+			try {
+				print("(TSE.contactObservers) observer: " + obs_ip);
+				obs = new Socket(obs_ip, o_ip_port.get(obs_ip));
+				obs.setSoTimeout(1500);
+				ObjectInputStream inWrt = new ObjectInputStream(obs.getInputStream());
+				ObjectOutputStream outWrt = new ObjectOutputStream(obs.getOutputStream());
+
+				Object [] args = {5, old_port, new_port};
+				outWrt.writeObject(args);
+
+				inWrt.close();
+				outWrt.close();
+				obs.close();
+
+			} catch (NumberFormatException | IOException e) {
+				e.printStackTrace();
+			}
+		}
+	}
 
 	// FORMATA A SAIDA (ESTETICA)
 	private void print(String s) {
