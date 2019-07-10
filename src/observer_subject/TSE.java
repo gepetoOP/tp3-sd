@@ -36,6 +36,8 @@ public class TSE {
 	private int nSubjects = Configs.QTD_SUBJECTS;
 
 	private List<String> subjects;
+	private List<String> subjectsFail;
+	private List<String> subjectsRemaining;
 	private Map<String,Integer> s_ip_port;
 
 	private int nWriters;
@@ -53,11 +55,11 @@ public class TSE {
 		ArrayList<String> ips = new ArrayList<String>();
 
 		// PRIMEIRA FILEIRA LAB 30
-//		ips.add("200.239.138.211");
-//		ips.add("200.239.139.25");
-//		ips.add("200.239.139.27");
-//      ips.add("200.239.139.23");
-//		ips.add("200.239.139.28");
+		ips.add("200.239.138.211");
+		ips.add("200.239.139.25");
+		ips.add("200.239.139.27");
+      	ips.add("200.239.139.23");
+		ips.add("200.239.139.28");
 //		ips.add("200.239.139.32");
 
 		// SEGUNDA FILEIRA LAB 30
@@ -75,11 +77,11 @@ public class TSE {
 		ips.add("200.239.139.116");
 
 		// QUARTA FILEIRA LAB 30
-//		ips.add("200.239.139.26");
+		ips.add("200.239.139.26");
 //		ips.add("200.239.139.29");
-//		ips.add("200.239.139.61");
-//		ips.add("200.239.138.214");
-//		ips.add("200.239.138.240");
+		ips.add("200.239.139.61");
+		ips.add("200.239.138.214");
+		ips.add("200.239.138.240");
 
 
 		List<Integer> obs_ports = new ArrayList<Integer>();
