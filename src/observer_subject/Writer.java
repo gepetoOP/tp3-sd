@@ -39,7 +39,7 @@ public class Writer{
 		color[1] = new Random().nextInt(256);
 		color[2] = new Random().nextInt(256);
 
-		int x = new Random().nextInt(Configs.TAMANHO_FRAME);
+		int x = new Random().nextInt(Configs.TAMANHO_FRAME*2);
 		int y = new Random().nextInt(Configs.TAMANHO_FRAME);
 
 		int size = new Random().nextInt(Configs.TAMANHO_PONTO) + 1;
