@@ -24,8 +24,10 @@ public class Observer {
     private ServerSocket server;
     private Integer VERSION = 0;
 
-    private Long t1;
-    private Long t2=(long) 0;
+    private Long t0 = (long) 0;
+    private Long t1 = (long) 0;
+    private Long t2 = (long) 0;
+    private Double time;
 
     private int port;
 
@@ -51,6 +53,7 @@ public class Observer {
     public void server() throws IOException, ClassNotFoundException{
 
         print("(Observer.server) ----- OBSERVER ----- ");
+        t0 = System.currentTimeMillis();
 
         DatagramPacket packet = null;
         DatagramSocket socket = new DatagramSocket(port, InetAddress.getByName("0.0.0.0"));
@@ -64,7 +67,8 @@ public class Observer {
             socket.receive(packet);
 
             t2 = System.currentTimeMillis();
-            print("(Observer.server) time: " + (((double) t2.longValue()) - t1.longValue())/1000 + "s");
+            time = (double) (t2.longValue() - t1.longValue())/1000;
+            print(time + "s (Observer.server) time: " + (((double) t2.longValue()) - t1.longValue())/1000 + "s");
 
             ObjectInputStream iStream;
             iStream = new ObjectInputStream(new ByteArrayInputStream(packet.getData()));
