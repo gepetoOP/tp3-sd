@@ -104,6 +104,7 @@ public class Observer {
                     print("(Observer.msgHandler) RECEIVED VERSION: " + VERSION);
                     break;
                 case 5:	// subject caiu
+                    print(ConsoleColors.RED_BACKGROUND + "(Observer.msgHandler) CHANGED PORT: " + port);
                     if(port == (int) msg[1]){
                         port = (int) msg[2];
                         print("(Observer.msgHandler) CHANGED PORT: " + port);

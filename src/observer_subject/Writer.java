@@ -91,7 +91,6 @@ public class Writer{
 
             Socket wrt;
             try {
-                print("(Writer.write) TESTE " + Configs.IP_TSE);
                 wrt = new Socket(Configs.IP_TSE, Configs.TSE_PORTA);
                 wrt.setSoTimeout(1500);
                 ObjectInputStream inWrt = new ObjectInputStream(wrt.getInputStream());
@@ -109,7 +108,7 @@ public class Writer{
             }
 
 			String str = subjects.remove(0);
-			subjects.add(str);
+//			subjects.add(str);
 
 			ERROR = 1;
 		}
