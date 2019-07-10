@@ -67,7 +67,7 @@ public class Observer {
             socket.receive(packet);
 
             t2 = System.currentTimeMillis();
-            time = (double) (t2.longValue() - t1.longValue())/1000;
+            time = (double) (t2.longValue() - t0.longValue())/1000;
             print(time + "s (Observer.server) time: " + (((double) t2.longValue()) - t1.longValue())/1000 + "s");
 
             ObjectInputStream iStream;
