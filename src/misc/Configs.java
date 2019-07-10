@@ -3,9 +3,9 @@ package misc;
 
 public class Configs {
 
-    public static final int QTD_SUBJECTS = 3;
-    public static final int QTD_OBSERVER = 11;
-    public static final int QTD_WRITER = 4;
+    public static final int QTD_SUBJECTS = 2;
+    public static final int QTD_OBSERVER = 2;
+    public static final int QTD_WRITER = 2;
 
     public static final int BATCH_SIZE = 100;
     public static final int TAMANHO_NUVEM_INICIAL = 1;
