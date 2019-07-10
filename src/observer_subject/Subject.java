@@ -154,31 +154,39 @@ public class Subject {
 
 			case 3:
 				// recebe
-                print("(Subject.msgHandler) porTaken set to TRUE - " + host);
+                this.print("(Subject.msgHandler) porTaken set to TRUE - " + host);
 				portTaken = true;
 				break;
 
-			case 4:
-				// recebe notificação de que o sub voltou
-				synchronized(otherSubjects){
-					String ipPort = (String) msg[1];
-					int index = subjectsDown.indexOf(ipPort);
-					String str = null;
-					if (index != -1){
-						str = subjectsDown.remove(index);
-						otherSubjects.add(str);
-						boolean send_nuvem = (boolean) msg[2];
-						Object [] resp = {dots, subs_ip_port};
-						if(!send_nuvem) outStream.writeObject(resp);
 
-						index = obsPorts_current.indexOf(subs_ip_port.get(str));
-						if (index != -1){
-							obsPorts_current.remove(index);
-						}
-					}
-				}
                 case 5:
                     // sub caiu
+					String subDown = (String) msg[1];
+					if(otherSubjects.contains(subDown)) {
+						otherSubjects.remove(subDown);
+						subjectsDown.add(subDown);
+					}
+					this.print("(Subject.msgHandler) Subject down: " + subDown);
+
+				case 6:
+					// recebe notificação de que o sub voltou
+					synchronized(otherSubjects){
+						String ipPort = (String) msg[1];
+						int index = subjectsDown.indexOf(ipPort);
+						String str = null;
+						if (index != -1){
+							str = subjectsDown.remove(index);
+							otherSubjects.add(str);
+							boolean send_nuvem = (boolean) msg[2];
+							Object [] resp = {dots, subs_ip_port};
+							if(!send_nuvem) outStream.writeObject(resp);
+
+							index = obsPorts_current.indexOf(subs_ip_port.get(str));
+							if (index != -1){
+								obsPorts_current.remove(index);
+							}
+						}
+					}
 
 				break;
 

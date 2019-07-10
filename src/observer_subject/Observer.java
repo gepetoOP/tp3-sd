@@ -112,6 +112,7 @@ public class Observer {
                         this.print("(Observer.msgHandler) CHANGED PORT: " + port);
                         subjectFailed = true;
                     }
+                    this.print("(Observer.msgHandler) CHANGED PORT: " + port);
                     break;
                 case 6:	// subject voltou
                     if(port == (int) msg[1] && subjectFailed){
@@ -119,7 +120,7 @@ public class Observer {
                         this.print("(Observer.msgHandler) CHANGED PORT: " + port);
                         subjectFailed = false;
                     }
-                    print("(Observer.msgHandler) CHANGED PORT: " + port);
+                    this.print("(Observer.msgHandler) CHANGED PORT: " + port);
                     break;
 
                 default:

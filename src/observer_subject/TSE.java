@@ -279,9 +279,13 @@ public class TSE {
 							}
 
 							contactObservers(5, oldPort, newPort);
+							contactSubjects(5, ipFail);
 
 							if(invokeSubject(ipFail)) {
 								contactObservers(6, newPort, oldPort);
+								contactSubjects(6, ipFail);
+								activeSubjects.add(ipFail);
+								failedSubjects.remove(ipFail);
 							}
 
 							inStream.close();
@@ -344,6 +348,30 @@ public class TSE {
 				inWrt.close();
 				outWrt.close();
 				obs.close();
+
+			} catch (NumberFormatException | IOException e) {
+				e.printStackTrace();
+			}
+		}
+	}
+
+	public void contactSubjects(int a, String ip){
+
+		for(String sub_ip : subjects){
+			Socket sub;
+			try {
+				print("(TSE.contactSubjects) subjects: " + sub_ip);
+				sub = new Socket(sub_ip, s_ip_port.get(sub_ip));
+				sub.setSoTimeout(1500);
+				ObjectInputStream inWrt = new ObjectInputStream(sub.getInputStream());
+				ObjectOutputStream outWrt = new ObjectOutputStream(sub.getOutputStream());
+
+				Object [] args = {a, ip};
+				outWrt.writeObject(args);
+
+				inWrt.close();
+				outWrt.close();
+				sub.close();
 
 			} catch (NumberFormatException | IOException e) {
 				e.printStackTrace();
