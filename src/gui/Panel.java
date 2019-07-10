@@ -11,7 +11,7 @@ import javax.swing.JPanel;
 public class Panel extends JPanel {
 	private static final long serialVersionUID = 1L;
 	
-	private final BufferedImage image = new BufferedImage(Configs.TAMANHO_PANEL, Configs.TAMANHO_PANEL*2, BufferedImage.TYPE_INT_RGB);
+	private final BufferedImage image = new BufferedImage(Configs.TAMANHO_PANEL*2, Configs.TAMANHO_PANEL, BufferedImage.TYPE_INT_RGB);
 
 	public Panel(){
 

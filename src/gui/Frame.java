@@ -14,7 +14,7 @@ public class Frame extends JFrame{
 	public Frame(Panel panel) {
 		this.setLayout(new BorderLayout());
 		this.add(panel, BorderLayout.CENTER);
-		this.setSize(Configs.TAMANHO_FRAME, Configs.TAMANHO_FRAME*2);
+		this.setSize(Configs.TAMANHO_FRAME*2, Configs.TAMANHO_FRAME);
 		this.setVisible(true);
 		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 	}
