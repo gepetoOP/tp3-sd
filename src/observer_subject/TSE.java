@@ -19,18 +19,6 @@ import java.util.Map.Entry;
 import java.util.Random;
 import java.util.concurrent.CopyOnWriteArrayList;
 
-/*****************
- *
- * TODO: pq das obs_port?? (pq nao pode ser a mesma porta?)
- *  Porque a separacao de writers e observers?? (nao tem writer no enunciado)
- *
- *  nao entendi a distribuiçao de portas pros observers e subjects??? (linha 143, 2 ultimos for do construtor)
- *  pq 3 portas diferentes?
- *
- *  entender melhor as funções de invoke e server
- *
- **********************/
-
 
 public class TSE {
 
