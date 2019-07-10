@@ -153,7 +153,7 @@ public class Subject {
 				break;
 
 			case 3:
-				// recebe
+
                 this.print("(Subject.msgHandler) porTaken set to TRUE - " + host);
 				portTaken = true;
 				break;
@@ -257,9 +257,11 @@ public class Subject {
 		Object [] msg = {2,dotBatch};
 
 		for(Integer i : obsPorts_current){
+
 			DatagramPacket packet;
 			DatagramSocket socket = new DatagramSocket(i);
 			ByteArrayOutputStream bos = null;
+
 			try {
 				InetAddress group = getBrodcastAddr(); //InetAddress.getByName("192.168.0.255");
 				byte[] buf = new byte[socket.getReceiveBufferSize()];

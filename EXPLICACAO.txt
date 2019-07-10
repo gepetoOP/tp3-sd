@@ -1,8 +1,3 @@
-TODO: entender a server() do TSE
-
-
-
-
 MAQUINA COM O TSE:
 
 	ela que vai distribuir as outras entre Subject, Observer e Writer, aleatoriamente.
@@ -36,11 +31,11 @@ MAQUINA COM O TSE:
 			invokeWriters()
 				idem
 			Sleep(1000)
-			Server() (ENTENDER DIREITO O QUE QUE ELA FAZ!!!)
-				Recebe uma mensagem de alguem? (um dos subjects, avisando que morreu?)
-				Envia uma mensagem (n sei pra quem?)
-					conteudo: [<ip que 'morreu?'> , <lista dos subjects que "sobraram">]
-					
+			Server()
+			    se receber mensagem que um subject morreu, notifica os observers
+			    tenta reconectar no subject
+			    se conseguir, notifica os observers que voltou
+
 
 
 MAQUINAS INVOKER:
@@ -54,7 +49,7 @@ MAQUINAS INVOKER:
 
 	invoker()
 	    fica escutando na porta 6789 (Configs.INVOKER_PORTA)
-	    recebe mensagem do TSE -> msgHnadler()
+	    recebe mensagem do TSE -> msgHandler()
 
 	msgHnadler()
 	    olha se vai ser Subject, Observer ou Writer
@@ -65,9 +60,47 @@ MAQUINAS INVOKER:
 SUBJECT:
     subject(ips_dos_outros_subjects, todos_os_subjects_ip_e_porta, proprio_ip)
 
+    nuvemInicial()
+        coloca um tanto de ponto no dotBatch
+
+        notifyObserversUDP()
+            manda mensagem pros observers que escutam a mesma porta que ele??
+            pra td mundo??
+
+    server()
+        recebe mensagem
+
+        msgHandler()
+            1 - recebe pontinhos de writer
+
+                sync()
+                    manda mensagem pros outros subjects
+
+            2 - recebe sincronizacao de outro subjects
+
+
 
 OBSERVER:
+    observer(propria_porta)
+
+    cria o frame
+
+    server()
+        recebe packets
+
+        msgHandler()
+            printa os pontos ou trata a queda de um subject
+
+            printDots()
+                só atualiza o panel()
 
 
 WRITER:
+    writer(ips_dos_subjects)
 
+    generateDots()
+        generateDot()
+            write()
+                sorteia um subject pra escrever (nao manda pro mesmo 2x seguidas)
+
+                se o subject falha, notifica o TSE (repetidamente)
