@@ -266,7 +266,7 @@ public class TSE {
 								failedSubjects.add(ipFail);
 							}
 
-							int oldPort = o_ip_port.get(ipFail);
+							int oldPort = s_ip_port.get(ipFail);
 							int newPort;
 
 							if(oldPort == Configs.OBSERVER_PORTA){
