@@ -22,7 +22,7 @@ public class Writer{
 
 	public Writer(List<String> subjects){
 
-        print("(Writer) ----- WRITER ----- ");
+        this.print("(Writer) ----- WRITER ----- ");
 
 		this.subjects = subjects;
 
@@ -86,7 +86,7 @@ public class Writer{
 
 			WRT_SUB++;
 
-			print("(Writer.write) CONECTIONS WRT_SUB: " + WRT_SUB);
+			this.print("(Writer.write) CONECTIONS WRT_SUB: " + WRT_SUB);
 		}catch(Exception e){
 			System.err.println("(Writer.write) SUBJECT FAIL: " + subjIp);
 
@@ -108,8 +108,8 @@ public class Writer{
                 e2.printStackTrace();
             }
 
-			String str = subjects.remove(0);
-            nSubjects--;
+//			String str = subjects.remove(0);
+//            nSubjects--;
 //			subjects.add(str);
 
 			ERROR = 1;
