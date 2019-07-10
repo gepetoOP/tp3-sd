@@ -306,7 +306,7 @@ public class TSE {
 							Object [] msg = {ipFail, remainingSubjects, newPort};
 							outStream.writeObject(msg);
 
-							invokeSubject(ipFail);
+//							invokeSubject(ipFail);
 
 							inStream.close();
 							outStream.close();
