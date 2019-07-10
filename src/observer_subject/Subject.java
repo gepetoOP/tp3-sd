@@ -172,6 +172,7 @@ public class Subject {
 					// recebe notificação de que o sub voltou
 					synchronized(otherSubjects){
 						String ipPort = (String) msg[1];
+						this.print("(Subject.msgHandler) Subject up: " + ipPort);
 						int index = subjectsDown.indexOf(ipPort);
 						String str = null;
 						if (index != -1){
