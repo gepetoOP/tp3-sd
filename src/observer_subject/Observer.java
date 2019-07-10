@@ -108,6 +108,11 @@ public class Observer {
                     port = (int) msg[2];
                     print("(Observer.msgHandler) CHANGED PORT: " + port);
                     break;
+                case 6:	// subject voltou
+                    port = (int) msg[2];
+                    print("(Observer.msgHandler) CHANGED PORT: " + port);
+                    break;
+
                 default:
                     System.err.println("(Observer.msgHandler) Bad Request ERROR 500");
                     break;

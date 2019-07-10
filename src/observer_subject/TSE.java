@@ -1,5 +1,7 @@
 package observer_subject;
 
+import gui.Dot;
+import it.unimi.dsi.fastutil.ints.Int2ObjectMap;
 import misc.Configs;
 import misc.ConsoleColors;
 
@@ -225,6 +227,31 @@ public class TSE {
 		}
 	}
 
+	public void invokeSubject(String ip){
+
+		Socket sub;
+		try {
+			print("(TSE.invokeSubjects) invoking subject: " + ip);
+			sub = new Socket(ip, Configs.INVOKER_PORTA);
+			sub.setSoTimeout(1500);
+			ObjectInputStream inSub = new ObjectInputStream(sub.getInputStream());
+			ObjectOutputStream outSub = new ObjectOutputStream(sub.getOutputStream());
+
+			List<String> remainingSubjects = new ArrayList<String>(subjects);
+			remainingSubjects.remove(ip);
+
+			Object [] args = {1, remainingSubjects, s_ip_port, ip};
+			outSub.writeObject(args);
+
+			inSub.close();
+			outSub.close();
+			sub.close();
+		} catch (NumberFormatException | IOException e) {
+			e.printStackTrace();
+		}
+
+	}
+
 	public void invokeWriters(){
 
 		for(String wri_ip : writers){
@@ -291,6 +318,8 @@ public class TSE {
 							Object [] msg = {ipFail, remainingSubjects, newPort};
 							outStream.writeObject(msg);
 
+							invokeSubject(ipFail);
+
 							inStream.close();
 							outStream.close();
 							client.close();
@@ -304,7 +333,6 @@ public class TSE {
 			}
 		}).start();
 	}
-
 
 
 	// FORMATA A SAIDA (ESTETICA)
