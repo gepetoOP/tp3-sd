@@ -7,6 +7,7 @@ import java.net.DatagramPacket;
 import java.net.DatagramSocket;
 import java.net.InetAddress;
 import java.net.ServerSocket;
+import java.util.Random;
 
 import gui.Dot;
 import gui.Frame;
@@ -27,6 +28,8 @@ public class Observer {
     private Long t2=(long) 0;
 
     private int port;
+
+    private boolean subjectFailed = false;
 
     public Observer(int port){
 
@@ -104,15 +107,19 @@ public class Observer {
                     print("(Observer.msgHandler) RECEIVED VERSION: " + VERSION);
                     break;
                 case 5:	// subject caiu
-                    print(ConsoleColors.RED_BACKGROUND + "(Observer.msgHandler) CHANGED PORT: " + port);
                     if(port == (int) msg[1]){
                         port = (int) msg[2];
-                        print("(Observer.msgHandler) CHANGED PORT: " + port);
+                        this.print("(Observer.msgHandler) CHANGED PORT: " + port);
+                        subjectFailed = true;
                     }
                     break;
                 case 6:	// subject voltou
-//                    port = (int) msg[2];
-//                    print("(Observer.msgHandler) CHANGED PORT: " + port);
+                    if(port == (int) msg[1] && subjectFailed){
+                        port = (int) msg[2];
+                        this.print("(Observer.msgHandler) CHANGED PORT: " + port);
+                        subjectFailed = false;
+                    }
+                    print("(Observer.msgHandler) CHANGED PORT: " + port);
                     break;
 
                 default:
