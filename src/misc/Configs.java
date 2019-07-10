@@ -1,21 +1,11 @@
 package misc;
 
-/**
- *
- * CLASSE PRA CENTRALIZAR DEFINICAO DAS VARIAVEIS
- *
- * TODO: remover tse_ip?
- * TODO: remover observer_porta?
- * TODO: resolver subject_porta!!!
- *
- **/
-
 
 public class Configs {
 
     public static final int QTD_SUBJECTS = 3;
-    public static final int QTD_OBSERVER = 4;
-    public static final int QTD_WRITER = 3;
+    public static final int QTD_OBSERVER = 11;
+    public static final int QTD_WRITER = 4;
 
     public static final int BATCH_SIZE = 100;
     public static final int TAMANHO_NUVEM_INICIAL = 1;
