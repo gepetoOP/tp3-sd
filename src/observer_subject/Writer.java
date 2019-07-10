@@ -15,6 +15,7 @@ import misc.ConsoleColors;
 public class Writer{
 
 	private List<String> subjects;
+	private int nSubjects = Configs.QTD_SUBJECTS;
 	private int ERROR=0;
 	private int WRT_SUB = 0;
 	private int lastPosition = -1;
@@ -65,11 +66,11 @@ public class Writer{
 		ObjectOutputStream outSub = null;
 		String subjIp = null;
 		Object [] msg = {1, d};
-		int pos = new Random().nextInt(Configs.QTD_SUBJECTS);
+		int pos = new Random().nextInt(nSubjects);
 
 		try{
-			while(pos == lastPosition){
-				pos = new Random().nextInt(Configs.QTD_SUBJECTS);
+			while(pos == lastPosition && nSubjects > 1){
+				pos = new Random().nextInt(nSubjects);
 			}
 
 			lastPosition = pos;
@@ -108,6 +109,7 @@ public class Writer{
             }
 
 			String str = subjects.remove(0);
+            nSubjects--;
 //			subjects.add(str);
 
 			ERROR = 1;
@@ -128,7 +130,7 @@ public class Writer{
 
 	// FORMATA A SAIDA (ESTETICA)
 	private void print(String s) {
-		System.out.println(ConsoleColors.GREEN + s + ConsoleColors.RESET);
+		System.out.println(ConsoleColors.BLUE + s + ConsoleColors.RESET);
 	}
 
 }
