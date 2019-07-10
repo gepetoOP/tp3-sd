@@ -8,6 +8,7 @@ import misc.ConsoleColors;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
+import java.net.ConnectException;
 import java.net.InetSocketAddress;
 import java.net.ServerSocket;
 import java.net.Socket;
@@ -277,10 +278,11 @@ public class TSE {
 								newPort = Configs.OBSERVER_PORTA;
 							}
 
-							contactObservers(oldPort, newPort);
+							contactObservers(5, oldPort, newPort);
 
-//							invokeSubjects();
-							invokeSubject(ipFail);
+							if(invokeSubject(ipFail)) {
+								contactObservers(6, newPort, oldPort);
+							}
 
 							inStream.close();
 							outStream.close();
@@ -296,7 +298,7 @@ public class TSE {
 		}).start();
 	}
 
-	public void invokeSubject(String ip){
+	public boolean invokeSubject(String ip){
 
 		Socket sub;
 		try {
@@ -315,13 +317,17 @@ public class TSE {
 			inSub.close();
 			outSub.close();
 			sub.close();
-		} catch (NumberFormatException | IOException e) {
+			return true;
+		}catch (ConnectException e) {
+			return false;
+		}catch (NumberFormatException | IOException e){
 			e.printStackTrace();
+			return false;
 		}
 
 	}
 
-	public void contactObservers(int old_port, int new_port){
+	public void contactObservers(int a, int old_port, int new_port){
 
 		for(String obs_ip : observers){
 			Socket obs;
@@ -332,7 +338,7 @@ public class TSE {
 				ObjectInputStream inWrt = new ObjectInputStream(obs.getInputStream());
 				ObjectOutputStream outWrt = new ObjectOutputStream(obs.getOutputStream());
 
-				Object [] args = {5, old_port, new_port};
+				Object [] args = {a, old_port, new_port};
 				outWrt.writeObject(args);
 
 				inWrt.close();
