@@ -259,6 +259,8 @@ public class TSE {
 							String ipFail = (String) fail_msg[0];
 
 							String senderIp = ((InetSocketAddress) client.getRemoteSocketAddress()).getAddress().toString().replaceAll("/", "");
+							print("(TSE) IP FAIL " + ipFail);
+
 							print("(TSE) Received message from " + senderIp);
 
 							if(activeSubjects.contains(ipFail)) {
@@ -277,6 +279,7 @@ public class TSE {
 
 							contactObservers(oldPort, newPort);
 
+//							invokeSubjects();
 							invokeSubject(ipFail);
 
 							inStream.close();
